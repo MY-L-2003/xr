@@ -151,8 +151,6 @@ class HelmChassis {
   System::Semaphore ctrl_lock_;
   Device::Referee::Data raw_ref_;
 
-  std::array<Component::Type::CycleValue, 4> wheel_pos_; /* 不知道写了有啥用 */
-
   Component::CMD::ChassisCMD cmd_;
 
   Component::UI::String string_;

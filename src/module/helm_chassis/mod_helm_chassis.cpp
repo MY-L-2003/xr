@@ -190,7 +190,7 @@ void HelmChassis<Motor, MotorParam>::Control() {
         //       sqrt(pow(this->v[i][0], 2) + pow(this->v[i][1], 2));
         // }
         if (this->cmd_.y == 0 && this->cmd_.x < 0) {
-          this->gyro_angle_[i] += M_PI;
+          this->gyro_angle_[i] -= M_PI;
         }
         if (this->gyro_angle_[i] > -(M_PI / 2) &&
             this->gyro_angle_[i] <= (M_PI / 2)) {
@@ -201,6 +201,18 @@ void HelmChassis<Motor, MotorParam>::Control() {
           this->real_v_[i] =
               sqrt(pow(this->v[i][0], 2) + pow(this->v[i][1], 2));
         }
+        // if (this->gyro_angle_[i] < -(M_PI / 2)) {
+        //   this->gyro_angle_[i] += (M_PI);
+        //   this->real_v_[i] =
+        //       sqrt(pow(this->v[i][0], 2) + pow(this->v[i][1], 2));
+        // }
+        // if (this->gyro_angle_[i] > (M_PI / 2)) {
+        //   this->gyro_angle_[i] -= (M_PI);
+        //   this->real_v_[i] =
+        //       sqrt(pow(this->v[i][0], 2) + pow(this->v[i][1], 2));
+        // }
+        // this->real_v_[i] = -sqrt(pow(this->v[i][0], 2) + pow(this->v[i][1],
+        // 2));
       }
       break;
     }
@@ -281,11 +293,9 @@ void HelmChassis<Motor, MotorParam>::Control() {
       clampf(&this->percentage, 0.0f, 1.0f);
 
       for (unsigned i = 0; i < 4; i++) {
-        //        Component::Type::CycleValue(this->setpoint_.wheel_pos[i]);
         this->pos_out_[i] = this->change_actr_[i]->Calculate(
             this->setpoint_.wheel_pos[i], 0.0,
-            this->change_motor_[i]->GetAngle(),
-            this->dt_);  //原速度获取写死了为0，不知道为什么
+            this->change_motor_[i]->GetAngle(), this->dt_);
 
         this->out_[i] = this->actuator_[i]->Calculate(
             this->real_v_[i] * 5000, this->motor_[i]->GetSpeed(), this->dt_);
