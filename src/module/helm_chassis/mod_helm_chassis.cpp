@@ -81,9 +81,6 @@ HelmChassis<Motor, MotorParam>::HelmChassis(Param& param, float control_freq)
       reinterpret_cast<float*>(System::Memory::Malloc(
           4 * sizeof(*this->setpoint_.motor_rotational_speed)));
   ASSERT(this->setpoint_.motor_rotational_speed);
-  // this->setpoint_.wheel_pos = reinterpret_cast<float*>(
-  //     System::Memory::Malloc(4 * sizeof(*this->setpoint_.wheel_pos)));
-  // ASSERT(this->setpoint_.wheel_pos);
   auto event_callback = [](ChassisEvent event, HelmChassis* chassis) {
     chassis->ctrl_lock_.Wait(UINT32_MAX);
 
@@ -247,24 +244,8 @@ void HelmChassis<Motor, MotorParam>::Control() {
     case HelmChassis::BREAK:
       break;
     case HelmChassis::INDENPENDENT: /* 独立模式wz为0 */
-      // // this->move_vec_.wz = this->cmd_.z;
-      // for (int i = 0; i < 4; i++) {
-      //   this->setpoint_.wheel_pos[i] += this->gyro_angle_[i];
-      // }
-      // break;
     case HelmChassis::FOLLOW_GIMBAL: /* 跟随模式通过PID控制使车头跟随云台
                                       */
-      // // this->move_vec_.wz =
-      // //     this->follow_pid_.Calculate(0.0f, this->yaw_, this->dt_);
-
-      // // if (this->move_vec_.wz < 0.01 && this->move_vec_.wz > -0.01) {
-      // //   this->move_vec_.wz = 0;
-      // // }
-
-      // for (int i = 0; i < 4; i++) {
-      //   this->setpoint_.wheel_pos[i] += this->gyro_angle_[i];
-      // }
-      // break;
     case HelmChassis::ROTOR: /* 小陀螺模式使底盘以一定速度旋转
                               */
       for (int i = 0; i < 4; i++) {

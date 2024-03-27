@@ -139,7 +139,7 @@ class HelmChassis {
   /* PID计算的目标值 */
   struct {
     float *motor_rotational_speed; /* 电机转速的动态数组，单位：RPM */
-    std::array<float, 4> wheel_pos;
+    std::array<float, 4> wheel_pos; /* 电机旋转角度数组 */
   } setpoint_;
 
   /* 反馈控制用的PID */
